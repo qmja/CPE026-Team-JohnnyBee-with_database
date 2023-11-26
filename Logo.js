@@ -4,7 +4,7 @@ import React from 'react';
 export default function Logo() {
   return (
     <View style={styles.StyleOut}>
-      <Image source={require('../assets/logo3.png')} style={styles.Logo} resizeMode="contain" />
+      <Image source={require('../assets/logologo.png')} style={styles.Logo} resizeMode="contain" />
     </View>
   );
 }
