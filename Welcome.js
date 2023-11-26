@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { StyleSheet, Text, View, Switch, ScrollView, Pressable } from "react-native";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import PushNotification from "react-native-push-notification";
 
 export default function Welcome() {
   const [alarms, setAlarms] = useState([]);
@@ -10,22 +9,13 @@ export default function Welcome() {
   const [isTimePickerVisible, setTimePickerVisible] = useState(false);
   const [selectedTime, setSelectedTime] = useState(null);
 
-  useEffect(() => {
-    // Initialize push notifications
-    PushNotification.configure({
-      onNotification: function (notification) {
-        console.log("NOTIFICATION:", notification);
-      },
-    });
-  }, []);
-
   const showTimePicker = () => setTimePickerVisible(true);
 
   const hideTimePicker = () => setTimePickerVisible(false);
 
   const handleTimeConfirm = (time) => {
     setSelectedTime(time);
-    addAlarm(time);
+    addAlarm(time); 
     hideTimePicker();
   };
 
@@ -34,13 +24,6 @@ export default function Welcome() {
       const formattedTime = time.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
       const newAlarm = { time: formattedTime, isOn: isAlarmOn };
       setAlarms([...alarms, newAlarm]);
-
-      // Schedule a notification
-      PushNotification.localNotificationSchedule({
-        message: `Alarm at ${formattedTime}`,
-        date: new Date(time),
-      });
-
       setSelectedTime(null);
     }
   };
@@ -54,7 +37,7 @@ export default function Welcome() {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Alarms</Text>
-
+      
       <ScrollView style={styles.alarmsContainer}>
         {alarms.map((alarm, index) => (
           <View key={index} style={styles.alarmItem}>
